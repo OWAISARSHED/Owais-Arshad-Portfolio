@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import Typewriter from 'typewriter-effect';
 import { motion } from 'framer-motion';
-import { FiGithub as Github, FiLinkedin as Linkedin, FiMail as Mail, FiMapPin as MapPin, FiPhone as Phone, FiTerminal as Terminal, FiCheckCircle as CheckCircle, FiDatabase as Database, FiAward as Award, FiBriefcase as Briefcase, FiVideo as Video, FiExternalLink as ExternalLink } from 'react-icons/fi';
+import { FiGithub as Github, FiLinkedin as Linkedin, FiMail as Mail, FiMapPin as MapPin, FiPhone as Phone, FiTerminal as Terminal, FiCheckCircle as CheckCircle, FiDatabase as Database, FiAward as Award, FiBriefcase as Briefcase, FiVideo as Video, FiExternalLink as ExternalLink, FiMenu, FiX } from 'react-icons/fi';
 import './index.css';
 
 const App = () => {
@@ -11,6 +11,7 @@ const App = () => {
   const [githubProjects, setGithubProjects] = useState([]);
   const [showCertModal, setShowCertModal] = useState(false);
   const [activeCert, setActiveCert] = useState("");
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     fetch('https://api.github.com/users/OWAISARSHED/repos')
@@ -27,7 +28,8 @@ const App = () => {
   const submitForm = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch('http://localhost:5000/api/contact', {
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+      const res = await fetch(`${apiUrl}/api/contact`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
@@ -75,19 +77,25 @@ const App = () => {
             <a href="/"><img src="/logo.png" alt="OA Tech Logo" style={{ height: "40px", width: "auto", borderRadius: "8px", border: "1px solid rgba(255, 255, 255, 0.1)" }} /></a>
             <span style={{ fontSize: "1.2rem", fontWeight: "700" }}>OA <span className="accent-text">Agency</span></span>
           </div>
-          <div className="nav-links" style={{ display: 'flex', alignItems: 'center'}}>
-            <a href="#about">About</a>
-            <a href="#experience">Experience</a>
-            <a href="#qanalyz">QAnalyz</a>
-            <a href="#workflows">Workflows</a>
-            <a href="#fiverr">Fiverr</a>
-            <a href="#github">GitHub</a>
-            <a href="#certifications">Certifications</a>
-            <a href="#contact">Contact</a>
+
+          {/* Mobile Menu Toggle */}
+          <button className="mobile-menu-btn" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+            {isMobileMenuOpen ? <FiX size={28} /> : <FiMenu size={28} />}
+          </button>
+
+          <div className={`nav-links ${isMobileMenuOpen ? 'active' : ''}`}>
+            <a href="#about" onClick={() => setIsMobileMenuOpen(false)}>About</a>
+            <a href="#experience" onClick={() => setIsMobileMenuOpen(false)}>Experience</a>
+            <a href="#qanalyz" onClick={() => setIsMobileMenuOpen(false)}>QAnalyz</a>
+            <a href="#workflows" onClick={() => setIsMobileMenuOpen(false)}>Workflows</a>
+            <a href="#fiverr" onClick={() => setIsMobileMenuOpen(false)}>Fiverr</a>
+            <a href="#github" onClick={() => setIsMobileMenuOpen(false)}>GitHub</a>
+            <a href="#certifications" onClick={() => setIsMobileMenuOpen(false)}>Certifications</a>
+            <a href="#contact" onClick={() => setIsMobileMenuOpen(false)}>Contact</a>
             <button 
-              onClick={() => { setActiveCert("/resume.pdf"); setShowCertModal(true); }} 
+              onClick={() => { setActiveCert("/resume.pdf"); setShowCertModal(true); setIsMobileMenuOpen(false); }} 
               className="btn btn-primary" 
-              style={{ padding: "0.4rem 1rem", fontSize: "0.9rem", marginLeft: "1rem" }}>
+              style={{ padding: "0.4rem 1rem", fontSize: "0.9rem", marginLeft: "1rem", whiteSpace: "nowrap" }}>
               View Resume
             </button>
           </div>
@@ -161,7 +169,7 @@ const App = () => {
           variants={fadeInUp}
         >
           <h2 className="section-heading">About Me</h2>
-          <div className="about-grid" style={{ gridTemplateColumns: "1fr" }}>
+          <div className="about-grid">
             <div className="about-text">
               <p>
                 Currently pursuing a Bachelor of Science in Software Engineering at Shifa Tameer-e-Millat University, expected to graduate in October 2027, while leading management roles at Shifa Sports Society and Shifa Freelancing Society. These roles focus on driving student engagement, promoting sports culture, and organizing events to empower students with technical and creative skills.
@@ -308,7 +316,7 @@ const App = () => {
           <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: "3rem", justifyContent: "space-between" }}>
             
             {/* Left Content */}
-            <div style={{ flex: "1 1 500px" }}>
+            <div style={{ flex: "1 1 min(100%, 500px)" }}>
               <div style={{ display: "inline-block", padding: "0.5rem 1rem", background: "rgba(29, 191, 115, 0.1)", color: "var(--accent-1)", borderRadius: "20px", fontSize: "0.9rem", fontWeight: "bold", marginBottom: "1.5rem", border: "1px solid rgba(29, 191, 115, 0.3)" }}>
                 Enterprise QA Partner
               </div>
@@ -327,7 +335,7 @@ const App = () => {
             </div>
 
             {/* Right Badge/Graphic */}
-            <div style={{ flex: "1 1 350px", display: "flex", justifyContent: "center" }}>
+            <div style={{ flex: "1 1 min(100%, 350px)", display: "flex", justifyContent: "center" }}>
                <div style={{ width: "100%", padding: "3rem 2rem", background: "var(--card-bg)", borderRadius: "16px", border: "1px solid var(--glass-border)", textAlign: "center", boxShadow: "0 10px 30px rgba(0,0,0,0.5)", position: "relative", overflow: "hidden" }}>
                   <div style={{ position: "absolute", top: "-50px", left: "-50px", width: "100px", height: "100px", background: "var(--accent-1)", filter: "blur(50px)", opacity: "0.5" }}></div>
                   <CheckCircle size={56} color="var(--accent-1)" style={{ marginBottom: "1.5rem" }} />

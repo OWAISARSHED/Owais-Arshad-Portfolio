@@ -227,6 +227,52 @@ a {
 .nav-links {
   display: flex;
   gap: 2rem;
+  align-items: center;
+}
+
+.mobile-menu-btn {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  cursor: pointer;
+  z-index: 1001;
+}
+
+@media (max-width: 968px) {
+  .nav-links {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: rgba(7, 7, 10, 0.95);
+    backdrop-filter: blur(10px);
+    flex-direction: column;
+    padding: 2rem;
+    gap: 1.5rem;
+    border-bottom: 1px solid var(--glass-border);
+    transition: all 0.3s ease-in-out;
+    transform: translateY(-10px);
+    opacity: 0;
+    pointer-events: none;
+  }
+  
+  .nav-links.active {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .nav-links button.btn {
+    margin-left: 0 !important;
+    width: 100%;
+  }
+
+  .mobile-menu-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
 .nav-links a {
@@ -243,6 +289,12 @@ a {
 /* Sections */
 .section {
   padding: 6rem 2rem;
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: 4rem 1rem;
+  }
 }
 
 .section-container {
@@ -277,6 +329,12 @@ a {
   position: relative;
   overflow: hidden;
   padding-top: 80px;
+}
+
+@media (max-width: 768px) {
+  .hero {
+    padding: 100px 1rem 4rem 1rem;
+  }
 }
 
 .hero-split {
@@ -340,6 +398,20 @@ a {
   }
   .hero-description {
     margin: 0 auto 2.5rem auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-cta {
+    flex-direction: column;
+    width: 100%;
+  }
+  .hero-cta .btn {
+    width: 100%;
+    justify-content: center;
+  }
+  .hero-role {
+    min-height: 6rem !important;
   }
 }
 
@@ -540,6 +612,19 @@ a {
   border-left: 2px solid var(--glass-border);
   padding-left: 2rem;
   margin-left: 1rem;
+}
+
+@media (max-width: 768px) {
+  .timeline {
+    padding-left: 1rem;
+    margin-left: 0.5rem;
+  }
+  .timeline-dot {
+    left: -1.45rem !important;
+  }
+  .timeline-content {
+    padding: 1.5rem !important;
+  }
 }
 
 .timeline-item {
